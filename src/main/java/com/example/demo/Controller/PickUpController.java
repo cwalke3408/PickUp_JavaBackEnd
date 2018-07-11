@@ -14,6 +14,11 @@ public class PickUpController {
     @Autowired
     PickUpService pickUpService;
 
+    @RequestMapping("/")
+    public String sayHello(){
+        return "Hello This is World!!!";
+    }
+
     @RequestMapping("/allPoints")
     public List<Point> pointController(){
         return pickUpService.pointService();
