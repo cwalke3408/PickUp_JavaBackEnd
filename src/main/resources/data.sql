@@ -20,6 +20,8 @@ INSERT INTO events values
 
 
 INSERT INTO attending values
+    (1, 3, 'abc'),
+    (1, 4, 'abc'),
     (1, 1, 'abc'),
     (2, 1, 'abc'),
     (3, 1, 'abc'),

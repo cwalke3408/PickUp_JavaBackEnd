@@ -31,17 +31,17 @@ public class PickUpDao {
         List<CheckUserModel> m = jdbcTemplate.query(sqlSelect, new BeanPropertyRowMapper<>(CheckUserModel.class));
         List<CheckUserModel> n = jdbcTemplate.query(checkEmail, new BeanPropertyRowMapper<>(CheckUserModel.class));
 
-        System.out.println("m: "+m.size() + " n: " + n.size());
+//        System.out.println("m: "+m.size() + " n: " + n.size());
 
         // Check if username and/or email already Exist in the database
         if(m.size() > 0 && n.size() > 0) {
-            System.out.println("Username and Email already exist");
+//            System.out.println("Username and Email already exist");
             return 3;
         }else if(m.size() > 0) {
-            System.out.println("UserName already exist");
+//            System.out.println("UserName already exist");
             return 1;
         } else if(n.size() > 0) {
-            System.out.println("Email already exist");
+//            System.out.println("Email already exist");
             return 2;
         }
 
@@ -132,10 +132,10 @@ public class PickUpDao {
             // Place in Attending if not in there/
             AttendingModal userCanAttend = new AttendingModal(userId, event_id);
             addAttending(userCanAttend);
-            System.out.println("TRUE");
+//            System.out.println("TRUE");
             return myEventsAttending(userId);
         }
-        System.out.println("FALSE");
+//        System.out.println("FALSE");
 
         return null;
     }
