@@ -19,11 +19,15 @@ public class PickUpDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Point> getAPoint(){
-        String SQL = "Select * FROM point";
-        return jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(Point.class));
-    }
-
+    /*** addNewUser
+     *   Check if username or email is already in the DBj
+     *
+     *   RETURN: <Integer>
+     *      0: New username and email is inserted into the DB
+     *      1: Username already exist in the DB
+     *      2: Email already exist in the DB
+     *      3: Username and Email exist in the DB
+     * ***/
     public Integer addNewUser(UserInfoModel userModel){
         String sqlSelect = "SELECT 1 FROM usermaster WHERE username = '"+ userModel.getUsername()+ "'";
         String checkEmail = "SELECT 2 FROM usermaster WHERE email = '"+ userModel.getEmail()+"'";
@@ -31,17 +35,12 @@ public class PickUpDao {
         List<CheckUserModel> m = jdbcTemplate.query(sqlSelect, new BeanPropertyRowMapper<>(CheckUserModel.class));
         List<CheckUserModel> n = jdbcTemplate.query(checkEmail, new BeanPropertyRowMapper<>(CheckUserModel.class));
 
-//        System.out.println("m: "+m.size() + " n: " + n.size());
-
         // Check if username and/or email already Exist in the database
         if(m.size() > 0 && n.size() > 0) {
-//            System.out.println("Username and Email already exist");
             return 3;
         }else if(m.size() > 0) {
-//            System.out.println("UserName already exist");
             return 1;
         } else if(n.size() > 0) {
-//            System.out.println("Email already exist");
             return 2;
         }
 
@@ -55,6 +54,13 @@ public class PickUpDao {
         return passwordEncoder.encode(password);
     }
 
+    /*** checkLoginDao
+     *  Check if user exist and if password is authenticated
+     *
+     *  RETURN <UserInfoModel>
+     *      -> UserInfoModel obj if user is authenticated
+     *      -> NULL if user is not authenticated
+     * ***/
     public UserInfoModel checkLoginDao(LoginModel loginModel){
 
         String sql = "SELECT * FROM usermaster WHERE username = '"+ loginModel.getUsername()+ "'";
@@ -65,8 +71,9 @@ public class PickUpDao {
         }
 
         return null;
-
     }
+
+
 
     public Integer getUserId(String username){
         String sql = "SELECT id FROM usermaster WHERE username = '" +username+ "'";
@@ -76,6 +83,12 @@ public class PickUpDao {
     }
 
 
+    /** addEvent
+     * User Adds a new event
+     *
+     * RETURNS <MyEvent>
+     *     An obj with a list of all the events created by the particular user
+     **/
     public MyEvents addEvent(EventModal eventList){
         String sql = "INSERT INTO events values(?,?,?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(sql, eventList.getId(), eventList.getTitle(), eventList.getTimedate(), eventList.getDate(), eventList.getLocation(), eventList.getLat(), eventList.getLng(), eventList.getDescription(), eventList.getAuthor(), eventList.getCount());
@@ -132,10 +145,8 @@ public class PickUpDao {
             // Place in Attending if not in there/
             AttendingModal userCanAttend = new AttendingModal(userId, event_id);
             addAttending(userCanAttend);
-//            System.out.println("TRUE");
             return myEventsAttending(userId);
         }
-//        System.out.println("FALSE");
 
         return null;
     }
