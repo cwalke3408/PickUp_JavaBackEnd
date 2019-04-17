@@ -45,7 +45,7 @@ public class PickUpController {
     @CrossOrigin
     @PostMapping("/userEvents")
     public MyEvents myOwnEvents(@RequestBody UsernameModel usernameModel){
-        return eventService.userCreatedEventsService(usernameModel);
+        return eventService.userCreatedEventsService(usernameModel.getUsername());
     }
 
     @CrossOrigin

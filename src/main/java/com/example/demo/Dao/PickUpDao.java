@@ -89,30 +89,31 @@ public class PickUpDao {
      * RETURNS <MyEvent>
      *     An obj with a list of all the events created by the particular user
      **/
-    public MyEvents addEvent(EventModal eventList){
+    public void addEvent(EventModal eventList){
         String sql = "INSERT INTO events values(?,?,?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(sql, eventList.getId(), eventList.getTitle(), eventList.getTimedate(), eventList.getDate(), eventList.getLocation(), eventList.getLat(), eventList.getLng(), eventList.getDescription(), eventList.getAuthor(), eventList.getCount());
-        return myEventsOwn(eventList.getAuthor());
+//        return myEventsOwn(eventList.getAuthor());
     }
 
-    public MyEvents myEventsOwn(String author){
-        MyEvents userEvents = new MyEvents();
+    /** myEventsOwn
+     * Select all events created by given author
+     *
+     * @param author
+     * @return: MyEvents obj which contains the list of events created by the user
+     */
+    public List<EventModal> myEventsOwn(String author){
+//        MyEvents userEvents = new MyEvents();
 
         String sql = "SELECT * FROM events WHERE author='"+author+"'";
-        userEvents.setOwnEvents(jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(EventModal.class)));
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(EventModal.class));
 
-        int userId = getUserId(author);
+
+//        userEvents.setOwnEvents(jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(EventModal.class)));
+
+/*        int userId = getUserId(author);
         userEvents.setAttendingEvents(myEventsAttending(userId));
 
-//        String sql2 = "SELECT * FROM attending WHERE user_id = '" + userId +"'";
-//        List<AttendingModal> n = jdbcTemplate.query(sql2, new BeanPropertyRowMapper<>(AttendingModal.class));
-//        for(int i=0; i < n.size(); i++){
-//            String sql3 = "SELECT * FROM events WHERE id = '" + n.get(i).getEvent_id()+ "'";
-//            List<EventModal> userAttendingEvents = jdbcTemplate.query(sql3, new BeanPropertyRowMapper<>(EventModal.class));
-//            userEvents.addEventToAttending(userAttendingEvents.get(0));
-//        }
-
-        return userEvents;
+        return userEvents;*/
     }
 
     public ArrayList<EventModal> myEventsAttending(Integer userId){
@@ -171,7 +172,7 @@ public class PickUpDao {
         return myEventsAttending(userID);
     }
 
-    public MyEvents deleteEvent(UserEventIdModal userEventIdModal){
+    public void deleteEvent(UserEventIdModal userEventIdModal){
         // Delete users from attending
         String sql = "DELETE from attending where event_id = ?";
         jdbcTemplate.update(sql, userEventIdModal.getId());
@@ -179,7 +180,7 @@ public class PickUpDao {
         String sql1 = "DELETE from events where id = ?";
         jdbcTemplate.update(sql1, userEventIdModal.getId());
 
-        return myEventsOwn(userEventIdModal.getUsername());
+//        return myEventsOwn(userEventIdModal.getUsername());
     }
 }
 

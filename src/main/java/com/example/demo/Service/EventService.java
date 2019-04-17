@@ -1,39 +1,20 @@
 package com.example.demo.Service;
 
-import com.example.demo.Dao.PickUpDao;
 import com.example.demo.Modal.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Component
-public class EventService {
+public interface EventService {
 
-    @Autowired
-    private PickUpDao pickUpDao;
+    AllEventsModel getCurrentEventService();
 
-    public AllEventsModel getCurrentEventService() {
-        return this.pickUpDao.allEvents();
-    }
+    MyEvents addEventService(EventModal eventModal);
 
-    public MyEvents addEventService(EventModal eventModal) {
-        return this.pickUpDao.addEvent(eventModal);
-    }
+    MyEvents userCreatedEventsService(String userName);
 
-    public MyEvents userCreatedEventsService(UsernameModel usernameModel) {
-        return this.pickUpDao.myEventsOwn(usernameModel.getUsername());
-    }
+    ArrayList<EventModal> userIsAttendingEventService(UserAddAttending userAddAttending);
 
-    public ArrayList<EventModal> userIsAttendingEventService(UserAddAttending userAddAttending) {
-        return this.pickUpDao.addUserToEvent(userAddAttending.getUsername(), userAddAttending.getId());
-    }
+    ArrayList<EventModal> cancelUserAttendingEventService(UserAddAttending userAddAttending);
 
-    public ArrayList<EventModal> cancelUserAttendingEventService(UserAddAttending userAddAttending) {
-        return this.pickUpDao.cancelUserFromEvent(userAddAttending);
-    }
-
-    public MyEvents deleteEntireEventService(UserEventIdModal userEventIdModal) {
-        return this.pickUpDao.deleteEvent(userEventIdModal);
-    }
+    MyEvents deleteEntireEventService(UserEventIdModal userEventIdModal);
 }

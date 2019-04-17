@@ -4,9 +4,9 @@ import com.example.demo.Dao.PickUpDao;
 import com.example.demo.Modal.LoginModel;
 import com.example.demo.Modal.UserInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UserService {
 
     @Autowired
