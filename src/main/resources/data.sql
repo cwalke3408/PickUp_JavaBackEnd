@@ -11,6 +11,7 @@ INSERT INTO usermaster values
        (DEFAULT, 'abc123', '123', 'user descrip', 'photo link', 'cdw123');
 
 INSERT INTO events values
+    (DEFAULT, 'TestOnLocal', '7:00 PM', 'Wed Jun 13 2018','Clemson', '34.6760942', '-82.8364148', 'Testing on the local', 'abc', 1),
     (DEFAULT, 'A Round of Disc Golf', '7:00 PM', 'Wed Jun 13 2018','Clemson', '34.6760942', '-82.8364148', 'Looking for a partner for a round of golf', 'abc', 1),
     (DEFAULT, 'Ultamate Frisbee', '9:00 AM', 'Fri Jun 29 2018','Greenville', '34.8908379', '-82.29098189999999', 'Looking for people to play a pick up game of frisbee', 'abc', 1),
     (DEFAULT, 'Disc Golf', '9:00 AM', 'Sat Jun 30 2018','270 Sanders Rd,Central,SC', '34.71140270000001', '-82.78254319999999', 'Looking for a playing partner to play a round with', 'abc1', 1),
