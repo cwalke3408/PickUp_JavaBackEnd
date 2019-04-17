@@ -1,79 +1,75 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Modal.*;
-import com.example.demo.Service.PickUpService;
+import com.example.demo.Service.EventService;
+import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 public class PickUpController {
 
     @Autowired
-    PickUpService pickUpService;
+    private EventService eventService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/")
     public String sayHello(){
         return "Hello This is World!!!";
     }
 
-    @RequestMapping("/allPoints")
-    public List<Point> pointController(){
-        return pickUpService.pointService();
-    }
 
     @CrossOrigin
 //    @RequestMapping(name="/newUser", method = RequestMethod.POST)
     @PostMapping("/newUser")
     public Integer addingNewUser(@RequestBody UserInfoModel userInfoModel){
-        return pickUpService.newUserService().addNewUser(userInfoModel);
+        return userService.addNewUserService(userInfoModel);
     }
-
 
     @CrossOrigin
     @PostMapping("/login")
 //    @RequestMapping(name="/login", method = RequestMethod.POST)
     public UserInfoModel loginCheck(@RequestBody LoginModel loginModel){
-        return pickUpService.newUserService().checkLoginDao(loginModel);
+        return userService.userLoginCheckService(loginModel);
     }
 
     @CrossOrigin
     @PostMapping("/addEvent")
     public MyEvents addingEvent(@RequestBody EventModal eventModal){
-        return pickUpService.newUserService().addEvent(eventModal);
+        return eventService.addEventService(eventModal);
     }
 
     @CrossOrigin
     @PostMapping("/userEvents")
     public MyEvents myOwnEvents(@RequestBody UsernameModel usernameModel){
-        return pickUpService.newUserService().myEventsOwn(usernameModel.getUsername());
+        return eventService.userCreatedEventsService(usernameModel);
     }
 
     @CrossOrigin
     @RequestMapping("/allEvents")
     public AllEventsModel allCurrentEvents(){
-        return pickUpService.newUserService().allEvents();
+        return eventService.getCurrentEventService();
     }
 
     @CrossOrigin
     @PostMapping("/attendEvent")
     public ArrayList<EventModal> addUserToEvent(@RequestBody UserAddAttending userAddAttending){
-        System.out.println("Attend: " +userAddAttending.getUsername() + " " +userAddAttending.getId());
-        return pickUpService.newUserService().addUserToEvent(userAddAttending.getUsername(), userAddAttending.getId());
+        return eventService.userIsAttendingEventService(userAddAttending);
     }
 
     @CrossOrigin
     @PostMapping("/cancelAttend")
     public ArrayList<EventModal> cancelAttendedEvent(@RequestBody UserAddAttending userAddAttending){
-        return pickUpService.newUserService().cancelUserFromEvent(userAddAttending);
+        return eventService.cancelUserAttendingEventService(userAddAttending);
     }
 
     @CrossOrigin
     @PostMapping("/deleteEvent")
     public MyEvents deleteEvent(@RequestBody UserEventIdModal userEventIdModal){
-        return pickUpService.newUserService().deleteEvent(userEventIdModal);
+        return eventService.deleteEntireEventService(userEventIdModal);
     }
 
 
